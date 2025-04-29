@@ -5,6 +5,7 @@ import Navbar from "../Components/NavBar";
 import Footer from "../Components/Footer";
 import VolunSidebar from "../Components/VolunSideBar";
 import LoginNavbar from "../Components/LoginNavBar";
+import { useLocation } from "react-router-dom";
 
 
 export default function VolunteerDashboard() {
@@ -107,7 +108,7 @@ export default function VolunteerDashboard() {
     </div>
     </div>
     <footer className="py-5 bg-secondary">
-                    <Footer />
+        <Footer />
   </footer>
     </>
   );

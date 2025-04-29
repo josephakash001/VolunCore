@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import '/custom.scss';
+import { useLocation } from "react-router-dom";
 
 const VolunSidebar = () => {
+
+  const location = useLocation();
+  const { firstName, lastName } = location.state || {};
   const [user, setUser] = useState(null); // Declare useState outside of useEffect
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const VolunSidebar = () => {
     <div className="d-flex flex-column flex-shrink-0 p-3 bg-light vh-100" style={{ width: '250px' }}>
       <div className="d-flex flex-column align-items-start mb-3 mb-md-0 me-md-auto">
         <div>
-           <span className="fs-4 fw-bold text-primary">{user ? user.name : 'JOHN DOE'}</span> {/* Display user name */}
+           <span className="fs-4 fw-bold text-primary">{firstName} {lastName}</span> {/* Display user name */}
         </div>
         <div>
           <span className="text-muted">Volunteer</span>

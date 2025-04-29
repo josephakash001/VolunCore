@@ -28,7 +28,7 @@ import OrgMessagePage from './Pages/OrgMessagePage';
 import OrgNotificationPage from './Pages/OrgNotification';
 import OrgFeedbackPage from './Pages/OrgFeedbackPage';
 import OrgSettingsPage from './Pages/OrgSettingsPage';
-
+import OrgActivityForm from './Pages/OrgActivityForm';
 // import './custom.scss'
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -63,6 +63,7 @@ const App = () =>{
         <Route path="/manageactivities" element={<ManageActivities/>}/>
         <Route path="/managevolunteers" element={<ManageVolunteers/>}/>
         <Route path="/orgmessage" element={<OrgMessagePage/>}/>
+        <Route path="/manageactivities/orgactivityform" element={<OrgActivityForm/>}/>
         <Route path="/orgnotification" element={<OrgNotificationPage/>}/>
         <Route path="/orgfeedback" element={<OrgFeedbackPage/>}/>
         <Route path="/orgsetting" element={<OrgSettingsPage/>}/>

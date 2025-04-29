@@ -9,7 +9,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState("volun");
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useUser();
+ 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -44,12 +44,17 @@ const SignIn = () => {
   
       if (response.status === 200 && response.data) {
         const user = response.data;
+
+        const firstName = user.firstName
+        const LastName = user.lastName
+      
+        
   
         // Match password (for now it's plain text — later you'll use hash + JWT)
         if (user.password === formData.password) {
         
           alert("Signed in successfully!");
-          navigate(`/${userType}dashboard`);
+          navigate(`/${userType}dashboard`,{state:{firstName: firstName , lastName : LastName}});
         } else {
           alert("Incorrect password.");
         }

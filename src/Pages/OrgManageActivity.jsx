@@ -4,12 +4,18 @@ import "aos/dist/aos.css";
 import OrgSidebar from "../Components/OrgSideBar";
 import LoginNavbar from "../Components/LoginNavBar";
 import Footer from "../Components/Footer";
+import { useNavigate } from 'react-router-dom'; 
 
 export default function ManageActivities() {
+  const navigate = useNavigate();  // Initialize navigate function
+
+  const handleAddNewActivity = () => {
+    navigate('/orgactivityform');  // Navigate to the /orgactivityform route
+  };
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
-
+  
   const activities = [
     {
       id: 1,
@@ -134,7 +140,7 @@ export default function ManageActivities() {
           </nav>
 
           <div className="mt-3 text-end">
-            <button className="btn btn-success">+ Add New Activity</button>
+            <button className="btn btn-success" onClick={() => navigate("/manageactivities/orgactivityform")}>+ Add New Activity</button>
           </div>
         </div>
       </div>
