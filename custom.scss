@@ -1,0 +1,36 @@
+
+
+
+
+// Step 1: Override Bootstrap color variables BEFORE importing Bootstrap
+$primary: #0063a0;       // Warm Purple
+$secondary: #61aace;     // Vibrant Coral
+$success: #4CAF50;       // Emerald Green
+$warning: #FFA726;       // Sun Orange
+$light: #F4F4FB;         // Soft Lilac
+$dark: #2D2D2D;          // Charcoal
+$body-bg: $light;
+$body-color: $dark;
+
+//  Import only essential Bootstrap parts AFTER overrides
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables"; 
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/bootstrap"; 
+// Optional: add custom theme colors
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "warning": $warning,
+  "light": $light,
+  "dark": $dark,
+  "accent": #FFC947,        // Amber Yellow
+  "muted": #8B8B8B          // Cool Gray
+);
+
+// Override default font
+$font-family-base: 'Poppins', sans-serif;
+$headings-font-family: 'Poppins', sans-serif;
+
+

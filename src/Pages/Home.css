@@ -1,0 +1,11 @@
+
+
+.hero-section {
+    min-height: 100vh; /* Full screen height */
+    background-image: url('./hands-shape.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment:scroll; /* optional for parallax effect */
+    color: white; /*optional for better contrast*/
+  }

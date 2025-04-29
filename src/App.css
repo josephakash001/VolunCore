@@ -1,0 +1,93 @@
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+*,
+*::before,
+*::after {
+  font-family: 'Poppins', sans-serif !important;
+  box-sizing: border-box;
+}
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #ffffff;
+}
+
+
+/* Apply Poppins font to the body and all text-based elements */
+body, .navbar, .btn, .form-control, .card, .list-group-item {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Apply Poppins font to headings specifically */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Example of overriding Bootstrap's default colors using CSS variables */
+:root {
+  --bs-primary: #0063a0;       /* Warm Purple */
+  --bs-secondary: #61aace;     /* Vibrant Coral */
+  --bs-success: #4CAF50;       /* Emerald Green */
+  --bs-warning: #FFA726;       /* Sun Orange */
+  --bs-light: #F4F4FB;         /* Soft Lilac */
+  --bs-dark: #2D2D2D;          /* Charcoal */
+  --bs-body-bg: #F4F4FB;       /* Soft Lilac (background color) */
+  --bs-body-color: #2D2D2D;    /* Charcoal (text color) */
+  --bs-accent: #FFC947;        /* Amber Yellow */
+  --bs-muted: #8B8B8B;         /* Cool Gray */
+}
+
+/* Example of overriding some Bootstrap components */
+.navbar {
+  background-color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.bg-light {
+  background-color: var(--bs-light) !important;
+}
+
+.text-muted {
+  color: var(--bs-muted) !important;
+}
+
+.card {
+  background-color: var(--bs-light);
+  color: var(--bs-dark);
+}
+
+.list-group-item {
+  background-color: var(--bs-light);
+  color: var(--bs-dark);
+}
+
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
