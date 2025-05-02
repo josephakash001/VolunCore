@@ -47,14 +47,20 @@ const SignIn = () => {
 
         const firstName = user.firstName
         const LastName = user.lastName
+        const Name = user.name
       
         
   
         // Match password (for now it's plain text — later you'll use hash + JWT)
-        if (user.password === formData.password) {
+        if (user.password === (userType === "volun" ? formData.password : orgData.password)) {
         
           alert("Signed in successfully!");
-          navigate(`/${userType}dashboard`,{state:{firstName: firstName , lastName : LastName}});
+          // Save to localStorage
+          sessionStorage.setItem("userName", JSON.stringify(`${firstName} ${LastName}`));
+          sessionStorage.setItem("orgName", JSON.stringify(`${Name}`));
+          // Navigate to dashboard
+          navigate(`/${userType}dashboard`);
+          window.scrollTo(0, 0);
         } else {
           alert("Incorrect password.");
         }
@@ -86,6 +92,26 @@ const SignIn = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+              <label className="form-label">I am signing in as:</label>
+              
+              <div className="d-flex gap-2">
+                <button
+                  type="button"
+                  className={`btn ${userType === "volun" ? "btn-primary" : "btn-outline-primary"} w-50`}
+                  onClick={() => setUserType("volun")}
+                >
+                  Volunteer
+                </button>
+                <button
+                  type="button"
+                  className={`btn ${userType === "org" ? "btn-primary" : "btn-outline-primary"} w-50`}
+                  onClick={() => setUserType("org")}
+                >
+                  Organization
+                </button>
+              </div>
+            </div>
             <div className="mb-3 text-start">
               <label htmlFor="email" className="form-label">Email address</label>
               <input
@@ -124,26 +150,7 @@ const SignIn = () => {
                 </Link>
             </div>
 
-            <div className="mb-4">
-              <label className="form-label">I am signing in as:</label>
-              
-              <div className="d-flex gap-2">
-                <button
-                  type="button"
-                  className={`btn ${userType === "volun" ? "btn-primary" : "btn-outline-primary"} w-50`}
-                  onClick={() => setUserType("volun")}
-                >
-                  Volunteer
-                </button>
-                <button
-                  type="button"
-                  className={`btn ${userType === "org" ? "btn-primary" : "btn-outline-primary"} w-50`}
-                  onClick={() => setUserType("org")}
-                >
-                  Organization
-                </button>
-              </div>
-            </div>
+            
 
             <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}

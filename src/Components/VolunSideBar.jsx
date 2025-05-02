@@ -3,15 +3,22 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import '/custom.scss';
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const VolunSidebar = () => {
-
+  const navigate = useNavigate();
   const location = useLocation();
-  const { firstName, lastName } = location.state || {};
+  const storedName = sessionStorage.getItem("userName");
+  const [userName, setUserName] = useState(storedName ? JSON.parse(storedName) : "");
   const [user, setUser] = useState(null); // Declare useState outside of useEffect
+  const handleLogout = () => {
+    sessionStorage.clear(); // Clears all stored user data
+    alert("Logged out!");
+    navigate("/");
+  };
 
   useEffect(() => {
-    const email = localStorage.getItem("userEmail"); // Replace with actual method to get the email
+    const email = sessionStorage.getItem("userEmail"); // Replace with actual method to get the email
 
     if (email) {
       axios.get(`http://localhost:8081/api/volunteers?email=${email}`)
@@ -28,7 +35,7 @@ const VolunSidebar = () => {
     <div className="d-flex flex-column flex-shrink-0 p-3 bg-light vh-100" style={{ width: '250px' }}>
       <div className="d-flex flex-column align-items-start mb-3 mb-md-0 me-md-auto">
         <div>
-           <span className="fs-4 fw-bold text-primary">{firstName} {lastName}</span> {/* Display user name */}
+        <span className="fs-4 fw-bold text-primary">{userName}</span> {/* Display user name */}
         </div>
         <div>
           <span className="text-muted">Volunteer</span>
@@ -39,6 +46,11 @@ const VolunSidebar = () => {
         <li className="nav-item">
           <NavLink to="/volundashboard" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
             <i className="bi bi-speedometer2 me-2"></i> Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/volunprofile" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <i className="bi bi-calendar-event-fill me-2"></i> Profile
           </NavLink>
         </li>
         <li>
@@ -77,7 +89,7 @@ const VolunSidebar = () => {
       <div className="mt-auto">
         <button
           className="btn btn-outline-danger w-100"
-          onClick={() => alert("Logged out!")}
+          onClick={handleLogout}
         >
           <i className="bi bi-box-arrow-right me-2"></i> Logout
         </button>

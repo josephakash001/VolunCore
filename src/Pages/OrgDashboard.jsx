@@ -36,10 +36,10 @@ export default function OrganizationDashboard() {
       </header>
       <div className="d-flex">
         <OrgSidebar />
-        <div className="container my-5">
+        <div className="container my-5" >
           <h2 className="fw-bold" data-aos="fade-down">Organization Dashboard</h2>
           <p className="text-muted" data-aos="fade-down">
-            Welcome back! Here’s a quick summary of your organization’s activity.
+            Welcome back! Here’s a quick summary of your organization’s progress.
           </p>
 
           {/* Stats */}
@@ -78,7 +78,7 @@ export default function OrganizationDashboard() {
             <div className="col-md-6">
               <div className="card h-100">
                 <div className="card-body">
-                  <h5 className="card-title">Upcoming Events</h5>
+                  <h5 className="card-title">Upcoming Activities</h5>
                   <p className="text-muted">Stay prepared for upcoming activities</p>
                   {upcomingEvents.map((event, index) => (
                     <div key={index} className="mb-2">
@@ -88,7 +88,7 @@ export default function OrganizationDashboard() {
                   ))}
                 </div>
                 <div className="card-footer bg-white">
-                  <button className="btn btn-primary btn-sm">Manage Events</button>
+                  <button className="btn btn-primary btn-sm">Manage Activities</button>
                 </div>
               </div>
             </div>

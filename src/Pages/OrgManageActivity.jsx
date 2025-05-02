@@ -5,56 +5,36 @@ import OrgSidebar from "../Components/OrgSideBar";
 import LoginNavbar from "../Components/LoginNavBar";
 import Footer from "../Components/Footer";
 import { useNavigate } from 'react-router-dom'; 
+import axios from "axios";
 
 export default function ManageActivities() {
   const navigate = useNavigate();  // Initialize navigate function
 
-  const handleAddNewActivity = () => {
-    navigate('/orgactivityform');  // Navigate to the /orgactivityform route
+  const [activities, setActivities] = useState([]);  // State to store fetched activities
+  const [loading, setLoading] = useState(true);  // Loading state for the fetch
+  const [error, setError] = useState(null);  // State to store any error during the fetch
+
+  // Function to fetch activities from backend
+  const fetchActivities = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/api/project/activities");  // Fetch data from your backend
+      setActivities(response.data);  // Set activities to state
+      setLoading(false);  // Stop loading
+    } catch (error) {
+      setError("Failed to fetch activities");  // Handle any error
+      setLoading(false);  // Stop loading
+    }
   };
+
+
+  
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+    fetchActivities(); 
   }, []);
   
-  const activities = [
-    {
-      id: 1,
-      title: "Beach Cleanup",
-      orgName: "Ocean Savers",
-      mode: "Offline",
-      description: "Help clean up plastic and waste from the local beach.",
-      location: "Kovalam Beach",
-      schedule: "April 28, 2025",
-      duration: "3 hrs",
-      skills: ["Teamwork", "Environmental Awareness"],
-      applicants: 35,
-    },
-    {
-      id: 2,
-      title: "Health Camp",
-      orgName: "HealthFirst",
-      mode: "Offline",
-      description: "Join our health camp and assist in registration & coordination.",
-      location: "City Hall",
-      schedule: "April 10, 2025",
-      duration: "5 hrs",
-      skills: ["Coordination", "Communication"],
-      applicants: 20,
-    },
-    {
-      id: 3,
-      title: "Online Tutoring",
-      orgName: "EduBridge",
-      mode: "Online",
-      description: "Volunteer to tutor underprivileged kids in Math and English.",
-      location: "Remote",
-      schedule: "May 2, 2025",
-      duration: "1 hr/week",
-      skills: ["Teaching", "Patience", "Online Tools"],
-      applicants: 42,
-    },
-    // Add more entries as needed for testing pagination
-  ];
+  
+  
 
   // Pagination logic
   const [currentPage, setCurrentPage] = useState(1);

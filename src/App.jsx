@@ -21,6 +21,7 @@ import VolunMessagePage from './Pages/VolunMessagePage';
 import VolunNotificationPage from './Pages/VolunNotification';
 import VolunReviewPage from './Pages/VolunReviewPage';
 import VolunSettingsPage from './Pages/VolunSettingsPage';
+import VolunProfile from './Pages/VolunProfile';
 import OrganizationDashboard from './Pages/OrgDashboard';
 import ManageActivities from './Pages/OrgManageActivity';
 import ManageVolunteers from './Pages/OrgVolunteers';
@@ -33,6 +34,7 @@ import OrgActivityForm from './Pages/OrgActivityForm';
 // function App() {
 //   const [count, setCount] = useState(0)
 import { useEffect } from "react";
+
 
 
 
@@ -59,6 +61,7 @@ const App = () =>{
         <Route path="/volunnotification" element={<VolunNotificationPage/>}/>
         <Route path="/volunfeedback" element={<VolunReviewPage/>}/>
         <Route path="/volunsettings" element={<VolunSettingsPage/>}/>
+        <Route path="/volunprofile" element={<VolunProfile/>}/>
         <Route path="/orgdashboard" element={<OrganizationDashboard/>}/>
         <Route path="/manageactivities" element={<ManageActivities/>}/>
         <Route path="/managevolunteers" element={<ManageVolunteers/>}/>

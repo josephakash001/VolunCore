@@ -24,6 +24,7 @@ const OrgActivityForm = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState('');
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +50,7 @@ const OrgActivityForm = () => {
     }
 
     try {
-      const response = await axios.post('/api/activities', formData);
+      const response = await axios.post('http://localhost:8081/api/project/activities', formData);
       console.log('Server response:', response.data);
       setSubmitted(true);
       setFormData({
