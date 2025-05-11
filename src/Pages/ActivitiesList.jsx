@@ -7,7 +7,7 @@ import '/custom.scss';
 import Navbar from "../Components/NavBar";
 import Footer from "../Components/Footer";
 import VolunSidebar from "../Components/VolunSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import LoginNavbar from "../Components/VolunLoginNavBar";
 import axios from "axios";
 
 

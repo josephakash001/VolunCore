@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from "../Components/Footer";
 import OrgSidebar from "../Components/OrgSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
+import LoginNavbar from "../Components/VolunLoginNavBar";
 
 const OrgActivityForm = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,10 @@ const OrgActivityForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState('');
   
+  useEffect(() => {
+    const storedOrgName = JSON.parse(localStorage.getItem("OrgName")) || JSON.parse(sessionStorage.getItem("orgName"));
+    setFormData(prev => ({ ...prev, orgName: storedOrgName || "" }));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,7 +80,7 @@ const OrgActivityForm = () => {
   return (
     <>
     <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+        <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -100,9 +105,8 @@ const OrgActivityForm = () => {
               type="text"
               name="orgName"
               value={formData.orgName}
-              onChange={handleChange}
+              readOnly
               className={`form-control ${errors.orgName ? 'is-invalid' : ''}`}
-              placeholder="Organization name"
             />
             <div className="invalid-feedback">{errors.orgName}</div>
           </div>

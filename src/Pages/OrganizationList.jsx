@@ -5,7 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Navbar from "../Components/NavBar";
 import Footer from "../Components/Footer";
 import VolunSidebar from "../Components/VolunSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 
 const organizations = [
   {
@@ -54,7 +54,7 @@ export default function OrganizationList() {
   return (
     <>
     <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+    <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <VolunSidebar />

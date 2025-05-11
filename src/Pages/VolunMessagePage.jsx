@@ -5,7 +5,7 @@ import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
 import Footer from "../Components/Footer";
 import VolunSidebar from "../Components/VolunSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import LoginNavbar from "../Components/VolunLoginNavBar";
 import ConversationList from "./ConversationList";
 
 const dummyMessages = [

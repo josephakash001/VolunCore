@@ -1,14 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../Components/NavBar";
 import Footer from "../Components/Footer";
 import OrgSidebar from "../Components/OrgSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
+import axios from "axios";
 
 export default function OrganizationDashboard() {
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+    axios.get("http://localhost:8081/api/project/activities")
+      .then(response => {
+        setUpcomingEvents(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching activities:", error);
+      });
   }, []);
 
   const stats = {
@@ -24,15 +34,15 @@ export default function OrganizationDashboard() {
     { id: 3, name: "Lily Brown", role: "Event Coordinator", status: "Rejected" },
   ];
 
-  const upcomingEvents = [
-    { name: "Tree Plantation Drive", date: "April 25, 2025" },
-    { name: "Beach Cleanup", date: "May 3, 2025" },
-  ];
+  // const upcomingEvents = [
+  //   { name: "Tree Plantation Drive", date: "April 25, 2025" },
+  //   { name: "Beach Cleanup", date: "May 3, 2025" },
+  // ];
 
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+      <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -82,8 +92,8 @@ export default function OrganizationDashboard() {
                   <p className="text-muted">Stay prepared for upcoming activities</p>
                   {upcomingEvents.map((event, index) => (
                     <div key={index} className="mb-2">
-                      <div className="fw-medium">{event.name}</div>
-                      <small className="text-muted">{event.date}</small>
+                      <div className="fw-medium">{event.title}</div>
+                      <small className="text-muted">{event.schedule}</small>
                     </div>
                   ))}
                 </div>

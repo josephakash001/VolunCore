@@ -1,36 +1,87 @@
 import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import LoginNavbar from "../Components/LoginNavBar";
+
 import OrgSidebar from "../Components/OrgSideBar";
 import Footer from "../Components/Footer";
+import axios from "axios";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 
-export default function OrgSettingsPage() {
-  const [orgDetails, setOrgDetails] = useState({
-    name: "Green Earth Foundation",
-    email: "contact@greenearth.org",
-    phone: "+91 9876543210",
-    address: "123 Eco Street, Bangalore",
+export default function VolunSettingsPage() {
+  const [email, setEmail] = useState("");
+  
+  
+  const [volunDetails, setVolunDetails] = useState({
+    profileImage: ""
   });
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+    const storedEmail = sessionStorage.getItem("Email");
+    if (storedEmail) {
+      setEmail(JSON.parse(storedEmail));
+    } else {
+      console.warn("No userEmail found in sessionStorage.");
+      alert("You're not logged in. Please log in again.");
+      // You might want to redirect to login page here
+    } // Replace with actual method to get the email
+
+   
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setOrgDetails({ ...orgDetails, [name]: value });
-  };
+ 
 
-  const handleSave = () => {
-    alert("Settings saved successfully!");
-    // Add backend integration logic here
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setVolunDetails({
+        ...volunDetails,
+        profileImageFile: file, // store file to send to backend
+        profileImage: URL.createObjectURL(file), // for preview
+      });
+    }
+  };
+  
+
+  const handleSave = async () => {
+    try {
+       // properly get email
+  
+      const formData = new FormData();
+      
+        formData.append("image", volunDetails.profileImageFile); // ✅ actual file
+      
+  
+      await axios.post(`http://localhost:8081/api/project/organizations/profile_image?email=${email}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      alert("Profile image updated successfully!");
+    } catch (error) {
+      console.error("Error saving profile image:", error);
+      alert("Failed to save profile image. Please try again.");
+    }
+  };
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) return alert("Passwords do not match.");
+  
+    try {
+      const res = await axios.post(`http://localhost:8081/api/project/organizations/password?email=${email}`, {
+        currentPassword,
+        newPassword
+      });
+      alert("Password changed successfully!");
+    } catch (error) {
+      alert("Failed to change password.");
+    }
   };
 
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+        <OrgLogNavbar/>
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -40,31 +91,41 @@ export default function OrgSettingsPage() {
           <div className="row g-4" data-aos="zoom-in-up">
             {/* Profile Info */}
             <div className="col-md-6">
-              <div className="card shadow-sm border-0 rounded-4 h-100">
-                <div className="card-body">
-                  <h5 className="card-title">Profile Information</h5>
-                  <div className="mb-3">
-                    <label className="form-label">Organization Name</label>
-                    <input type="text" className="form-control" name="name" value={orgDetails.name} onChange={handleInputChange} />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input type="email" className="form-control" name="email" value={orgDetails.email} onChange={handleInputChange} />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Phone</label>
-                    <input type="text" className="form-control" name="phone" value={orgDetails.phone} onChange={handleInputChange} />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Address</label>
-                    <textarea className="form-control" name="address" rows="2" value={orgDetails.address} onChange={handleInputChange}></textarea>
-                  </div>
-                  <button className="btn btn-primary w-100" onClick={handleSave}>Save Changes</button>
+            <div className="card shadow-sm border-0 rounded-4 h-100">
+              <div className="card-body text-center">
+                <h5 className="card-title mb-4">Update Profile</h5>
+
+                {/* Profile Image Preview */}
+                <div className="mb-3">
+                  <img
+                    src={volunDetails.profileImage || "/Assets/default-dp.png"}
+                    alt="Profile"
+                    className="rounded-circle"
+                    style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                  />
                 </div>
+
+                {/* Upload New Image */}
+                <div className="mb-3">
+                  <label className="form-label">Change Profile Image</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </div>
+
+                {/* Save Button */}
+                <button className="btn btn-primary w-100" onClick={handleSave}>
+                  Save Changes
+                </button>
               </div>
             </div>
+          </div>
 
-            {/* Password Change */}
+
+            {/* Change Password */}
             <div className="col-md-6">
               <div className="card shadow-sm border-0 rounded-4 h-100">
                 <div className="card-body">
@@ -81,7 +142,7 @@ export default function OrgSettingsPage() {
                     <label className="form-label">Confirm New Password</label>
                     <input type="password" className="form-control" />
                   </div>
-                  <button className="btn btn-outline-primary w-100" onClick={() => alert("Password changed!")}>Update Password</button>
+                  <button className="btn btn-outline-primary w-100" onClick={handleChangePassword}>Update Password</button>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 import Footer from "../Components/Footer";
 import OrgSidebar from "../Components/OrgSideBar";
 
@@ -50,7 +50,7 @@ export default function OrgMessagePage() {
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+      <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />

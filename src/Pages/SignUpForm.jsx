@@ -67,6 +67,16 @@ const SignUpForm = () => {
 
       const response = await axios.post(endpoint, activeTab === "volunteer" ? formData : orgData);
       console.log(response.data);
+      const payload = {
+        to: activeTab === "volunteer" ? formData.email : orgData.email,
+        subject: "Welcome to VolunCore!",
+        body: activeTab === "volunteer"
+          ? `<h2>Hi ${formData.firstName}</h2> <h4>Welcome to VolunCore! Thank you for Registering.</h4>`
+          : `<h2>Hi ${orgData.name}</h2> <h4>Your organization has been registered on VolunCore.</h4>`
+      };
+
+      // Send email
+      await axios.post("http://localhost:8081/api/project/send-email", payload);
       alert("Registration successful!");
       navigate("/signin"); // 🔁 Redirect to sign-in page
     } catch (err) {

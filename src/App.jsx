@@ -9,7 +9,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginForm from "./Pages/LoginForm";
 import SignUpForm from "./Pages/SignUpForm";
-import LoginNavbar from './Components/LoginNavBar';
+import LoginNavbar from './Components/VolunLoginNavBar';
 import MainLayout from './Components/MainLayout';
 import Home from './Pages/home';
 import Landing from './Pages/LandingPage';
@@ -30,10 +30,10 @@ import OrgNotificationPage from './Pages/OrgNotification';
 import OrgFeedbackPage from './Pages/OrgFeedbackPage';
 import OrgSettingsPage from './Pages/OrgSettingsPage';
 import OrgActivityForm from './Pages/OrgActivityForm';
-// import './custom.scss'
-// function App() {
-//   const [count, setCount] = useState(0)
 import { useEffect } from "react";
+import ActivityView from './Pages/OrgActivityView';
+import ForgotPasswordPage from './Pages/ForgotPasswordPage';
+import ResetPasswordPage from './Pages/ResetPasswordPage';
 
 
 
@@ -53,6 +53,8 @@ const App = () =>{
       <Route path="/" element={<Home />} />
         <Route path="/signin" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/activities" element={<ActivitiesList/>} />
         <Route path="/activities/:id" element={<ActivitiesDetail />} />
         <Route path="/organizations" element={<OrganizationList />} />
@@ -70,6 +72,8 @@ const App = () =>{
         <Route path="/orgnotification" element={<OrgNotificationPage/>}/>
         <Route path="/orgfeedback" element={<OrgFeedbackPage/>}/>
         <Route path="/orgsetting" element={<OrgSettingsPage/>}/>
+        <Route path="/orgactivity/:id" element={<ActivityView/>}/>
+
 
 
 

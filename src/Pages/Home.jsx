@@ -123,21 +123,7 @@ export default function Home() {
             <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
               Find volunteer opportunities with NGOs making a difference in your community and around the world.
             </p>
-            <div className="row justify-content-center mt-4 g-3" data-aos="fade-up" data-aos-delay="300">
-            <div className="col-12 col-md-5 position-relative">
-              <Search className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" size={16} />
-              <input type="text" className="form-control ps-5" placeholder="Search opportunities or organizations" />
-            </div>
-            <div className="col-12 col-md-3 position-relative">
-              <MapPin className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" size={16} />
-              <input type="text" className="form-control ps-5" placeholder="Location" />
-            </div>
-            <div className="col-12 col-md-auto">
-              <button className="btn btn-primary d-flex align-items-center gap-1 w-100 w-md-auto">
-                <Search size={16} /> Search
-              </button>
-            </div>
-          </div>
+            
           </div>
         </section>
     {/* About Section */}

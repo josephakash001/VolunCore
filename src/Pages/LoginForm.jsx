@@ -1,7 +1,6 @@
-// src/Pages/SignIn.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginNavbar from "../Components/LoginNavBar";
+import LoginNavbar from "../Components/VolunLoginNavBar";
 import axios from 'axios';
 
 
@@ -48,6 +47,8 @@ const SignIn = () => {
         const firstName = user.firstName
         const LastName = user.lastName
         const Name = user.name
+        const mail = user.email
+        
       
         
   
@@ -58,6 +59,12 @@ const SignIn = () => {
           // Save to localStorage
           sessionStorage.setItem("userName", JSON.stringify(`${firstName} ${LastName}`));
           sessionStorage.setItem("orgName", JSON.stringify(`${Name}`));
+          sessionStorage.setItem("Email", JSON.stringify(`${mail}`));
+          
+
+          localStorage.setItem("UserName", JSON.stringify(`${firstName} ${LastName}`));
+          localStorage.setItem("OrgName", JSON.stringify(`${Name}`));
+          localStorage.setItem("Email", JSON.stringify(`${mail}`));
           // Navigate to dashboard
           navigate(`/${userType}dashboard`);
           window.scrollTo(0, 0);
@@ -145,7 +152,7 @@ const SignIn = () => {
               />
             </div>
             <div className="mb-3 text-end">
-            <Link to="/forgot-password" className="text-decoration-none small text-primary  ">
+            <Link to="/forgotpassword" className="text-decoration-none small text-primary  ">
                   Forgot password?
                 </Link>
             </div>

@@ -1,46 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 import OrgSidebar from "../Components/OrgSideBar";
 import Footer from "../Components/Footer";
+import axios from "axios";
 
-const feedbacks = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    activity: "Tree Plantation",
-    comment: "Great experience! The team was welcoming and the event was well-organized.",
-    rating: 5,
-    date: "2025-04-20",
-  },
-  {
-    id: 2,
-    name: "Bob Mathews",
-    activity: "Beach Cleanup",
-    comment: "Loved contributing to the environment. Would suggest better tools next time.",
-    rating: 4,
-    date: "2025-04-18",
-  },
-  {
-    id: 3,
-    name: "Sarah Lee",
-    activity: "Food Distribution",
-    comment: "It was a bit crowded, but overall a fulfilling experience.",
-    rating: 4,
-    date: "2025-04-15",
-  },
-];
 
 export default function OrgFeedbackPage() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [feedbacks, setFeedbacks] = useState([]);
+  const orgName = sessionStorage.getItem("orgName"); 
+
+
+
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
+  AOS.init({ duration: 1000, once: true });
+
+  
+  const orgName = JSON.parse(sessionStorage.getItem("orgName"));
+
+  axios.get("http://localhost:8081/api/project/feedback")
+    .then((res) => {
+      const allFeedbacks = res.data || [];
+      const filtered = allFeedbacks.filter(fb => fb.orgName === orgName);
+      setFeedbacks(filtered);
+    })
+    .catch((err) => console.error("Error fetching feedbacks:", err));
+}, []);
+
 
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+      <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -49,13 +44,15 @@ export default function OrgFeedbackPage() {
             Volunteer Feedback
           </h2>
           <div className="row row-cols-1 row-cols-md-2 g-4" data-aos="zoom-in-up">
-            {feedbacks.map((fb) => (
+            {feedbacks && feedbacks.map((fb) => (
               <div className="col" key={fb.id}>
                 <div className="card h-100 border-0 shadow-sm rounded-4">
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <h5 className="card-title mb-0">{fb.name}</h5>
-                      <small className="text-muted">{fb.date}</small>
+                      <small className="text-muted">
+                          {new Date(fb.date).toLocaleDateString()} {new Date(fb.date).toLocaleTimeString()}
+                        </small>
                     </div>
                     <h6 className="text-primary small mb-2">Activity: {fb.activity}</h6>
                     <p className="card-text">{fb.comment}</p>

@@ -1,6 +1,6 @@
 // Components/MainLayout.jsx
 import React from 'react';
-import LoginNavbar from './LoginNavBar';
+import LoginNavbar from './VolunLoginNavBar';
 
 const MainLayout = ({ children }) => {
   return (

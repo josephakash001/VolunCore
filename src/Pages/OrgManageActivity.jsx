@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import OrgSidebar from "../Components/OrgSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 import Footer from "../Components/Footer";
 import { useNavigate } from 'react-router-dom'; 
 import axios from "axios";
@@ -13,20 +13,46 @@ export default function ManageActivities() {
   const [activities, setActivities] = useState([]);  // State to store fetched activities
   const [loading, setLoading] = useState(true);  // Loading state for the fetch
   const [error, setError] = useState(null);  // State to store any error during the fetch
+  const orgName = JSON.parse(sessionStorage.getItem("orgName"));
 
   // Function to fetch activities from backend
   const fetchActivities = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/project/activities");  // Fetch data from your backend
-      setActivities(response.data);  // Set activities to state
-      setLoading(false);  // Stop loading
+      const response = await axios.get("http://localhost:8081/api/project/activities", {
+        params: { orgName }
+      });// Fetch data from your backend
+      const allActivities = response.data;
+
+    // Filter only those where orgName matches
+    const filteredActivities = allActivities.filter(
+      (activity) => activity.orgName === orgName
+    );
+
+    setActivities(filteredActivities);
+    setLoading(false);
     } catch (error) {
       setError("Failed to fetch activities");  // Handle any error
       setLoading(false);  // Stop loading
     }
   };
+  const handleViewClick = (id) => {
+    navigate(`/orgactivity/${id}`);
+  };
 
-
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this activity?")) {
+      axios.delete(`http://localhost:8081/api/project/activities/${id}`)
+        .then(() => {
+          alert("Activity deleted successfully!");
+          // Optionally refresh list or redirect
+          window.location.reload(); // or use a state update
+        })
+        .catch(error => {
+          console.error("Error deleting activity:", error);
+          alert("Failed to delete activity.");
+        });
+    }
+  };
   
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -51,7 +77,7 @@ export default function ManageActivities() {
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+      <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -87,11 +113,13 @@ export default function ManageActivities() {
                     <td>{activity.applicants}</td>
                     <td>
                       <div className="btn-group">
-                        <button className="btn btn-sm btn-outline-primary">View</button>
-                        <button className="btn btn-sm btn-outline-warning">Edit</button>
+                        <button className="btn btn-sm btn-outline-primary"
+                        onClick={() => handleViewClick(activity.id)}
+                        >View</button>
+                        
                         <button
                           className="btn btn-sm btn-outline-danger"
-                          onClick={() => alert(`Delete activity: ${activity.title}`)}
+                          onClick={() => handleDelete(activity.id)}
                         >
                           Delete
                         </button>

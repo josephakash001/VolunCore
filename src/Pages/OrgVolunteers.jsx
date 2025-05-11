@@ -2,35 +2,63 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import OrgSidebar from "../Components/OrgSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import OrgLogNavbar from "../Components/OrgLoginNavBar";
 import Footer from "../Components/Footer";
+import axios from "axios";
 
 export default function ManageVolunteers() {
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
-
-  const volunteers = [
-    { id: 1, name: "Alice Johnson", email: "alice@example.com", phone: "9876543210", role: "Event Helper", status: "Active" },
-    { id: 2, name: "Bob Mathews", email: "bob@example.com", phone: "9123456780", role: "Mentor", status: "Pending" },
-    { id: 3, name: "Charlie Rose", email: "charlie@example.com", phone: "9988776655", role: "Coordinator", status: "Active" },
-    { id: 4, name: "Diana Cooper", email: "diana@example.com", phone: "9012345678", role: "Admin Support", status: "Inactive" },
-    { id: 5, name: "Evan Thomas", email: "evan@example.com", phone: "9123454321", role: "Field Volunteer", status: "Active" },
-    // Add more volunteers for pagination
-  ];
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [applications, setApplications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const volunteersPerPage = 4;
 
   const indexOfLast = currentPage * volunteersPerPage;
   const indexOfFirst = indexOfLast - volunteersPerPage;
-  const currentVolunteers = volunteers.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(volunteers.length / volunteersPerPage);
+  const currentVolunteers = applications.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(applications.length / volunteersPerPage);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  
+    const OrgName = JSON.parse(sessionStorage.getItem("orgName"));
+  
+    axios.get(`http://localhost:8081/api/project/applications/${OrgName}`)
+    .then((res) => {
+      setApplications(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching applications:", err);
+      setError("Failed to load data");
+      setLoading(false);
+    });
+}, []);
+const handleApprove = (id) => {
+  axios.put(`http://localhost:8081/api/project/applications/status/${id}`)
+    .then((res) => {
+      // Optionally update the application list in the UI without full reload
+      setApplications(prev =>
+        prev.map(app => app.id === id ? { ...app, status: "Active" } : app)
+      );
+    })
+    .catch(err => console.error("Error approving application:", err));
+};
+const handleRemove = (id) => {
+  axios.put(`http://localhost:8081/api/project/applications/status/${id}`)
+  .then((res) => {
+    // Optionally update the application list in the UI without full reload
+    setApplications(prev =>
+      prev.map(app => app.id === id ? { ...app, status: "Rejected" } : app)
+    );
+  })
+  .catch(err => console.error("Error approving application:", err));
+};
 
   return (
     <>
       <header className="sticky-top bg-white border-bottom py-3 shadow-sm">
-        <LoginNavbar />
+        <OrgLogNavbar />
       </header>
       <div className="d-flex">
         <OrgSidebar />
@@ -45,32 +73,35 @@ export default function ManageVolunteers() {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Role</th>
+                  <th>Activity</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {currentVolunteers.map((volunteer) => (
-                  <tr key={volunteer.id}>
-                    <td>{volunteer.name}</td>
-                    <td>{volunteer.email}</td>
-                    <td>{volunteer.phone}</td>
-                    <td>{volunteer.role}</td>
+                {currentVolunteers.map((application) => (
+                  <tr key={application.id}>
+                    <td>{application.volunteerName}</td> {/* Assuming your backend sends the volunteer name */}
+                    <td>{application.volunteerEmail}</td>
+                    <td>{application.volunteerPhone}</td>
+                    <td>{application.activityName}</td> {/* Assuming your backend sends the activity name */}
                     <td>
                       <span className={`badge ${
-                        volunteer.status === "Active" ? "bg-success" :
-                        volunteer.status === "Pending" ? "bg-warning text-dark" :
+                        application.status === "Active" ? "bg-success" :
+                        application.status === "Rejected" ? "bg-danger" :
+                        application.status === "Pending" ? "bg-warning text-dark" :
                         "bg-secondary"
                       }`}>
-                        {volunteer.status}
+                        {application.status}
                       </span>
                     </td>
                     <td>
-                      <div className="btn-group">
-                        <button className="btn btn-sm btn-outline-primary">View</button>
-                        <button className="btn btn-sm btn-outline-danger">Remove</button>
-                      </div>
+                    <div className="btn-group">
+                      <button className="btn btn-sm btn-outline-success" onClick={() => handleApprove(application.id)}>Approve</button>
+                      {/* <button className="btn btn-sm btn-outline-primary">View</button> */}
+                      <button className="btn btn-sm btn-outline-danger" onClick={() => handleRemove(application.id)}>Reject</button>
+                    </div>
+
                     </td>
                   </tr>
                 ))}

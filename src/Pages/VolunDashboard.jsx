@@ -4,7 +4,7 @@ import "aos/dist/aos.css";
 import Navbar from "../Components/NavBar";
 import Footer from "../Components/Footer";
 import VolunSidebar from "../Components/VolunSideBar";
-import LoginNavbar from "../Components/LoginNavBar";
+import LoginNavbar from "../Components/VolunLoginNavBar";
 import { useLocation } from "react-router-dom";
 
 
@@ -44,7 +44,7 @@ export default function VolunteerDashboard() {
         <VolunSidebar />
     <div className="container my-5">
       <h2 className="fw-bold" data-aos="fade-down">Volunteer Dashboard</h2>
-      <p className="text-muted" data-aos="fade-down">Welcome back, John! Here's an overview of your volunteer activities.</p>
+      <p className="text-muted" data-aos="fade-down">Welcome back, Here's an overview of your volunteer activities.</p>
 
       {/* Stats */}
       <div className="row g-3 my-4" data-aos="zoom-in-up" data-aos-delay={stats.delay}>

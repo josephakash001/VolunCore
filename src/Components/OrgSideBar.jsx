@@ -56,7 +56,7 @@ const OrgSidebar = () => {
         <li>
           <NavLink to="/managevolunteers" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
             <i className="bi bi-people-fill me-2"></i>
-            Volunteers
+            Applications
           </NavLink>
         </li>
         <li>
